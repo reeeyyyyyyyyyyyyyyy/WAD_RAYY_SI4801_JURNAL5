@@ -15,7 +15,9 @@ class Vhs extends Model
      */
     protected $table = 'vhss';
     protected $fillable = [
-
+        'title',
+        'director',
+        'year',
     ];
 
 }

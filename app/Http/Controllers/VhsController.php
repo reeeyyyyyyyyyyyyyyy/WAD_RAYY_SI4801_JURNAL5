@@ -16,10 +16,10 @@ class VhsController extends Controller
     public function index()
     {
         // ambil semua data vhs
-        // $vhss = ....
+        $vhss = Vhs::all();
 
         // return koleksi vhs
-        // return ....
+        return VhsResource::colection($vhss);
     }
 
     /**
@@ -30,21 +30,27 @@ class VhsController extends Controller
     {
         // Request body berisi title, director dan year
         $validator = Validator::make($request->all(), [
-            
+            'title' => 'required|string|max:255',
+            'director' => 'required|string|',
+            'year' => 'required',
         ]);
 
         if ($validator->fails()) {
             return response()->json([
-                // 'success' => false,
-                // 'errors' => ....
+                'success' => 'Please check your request',
+                'errors' => $validator->errors()
+
             ], 422);
         }
 
         // Buat data vhs
-        // $vhs = ....
+        $vhs = Vhs::create($validator->validated());
 
         // return vhs yang dibuat sebagai resource
-        // return ....
+        return (new VhsResource($vhs))
+                    ->additional(['message' => 'Vhs created successfully'])
+                    ->response()
+                    ->setStatusCode(201);
 
     }
 

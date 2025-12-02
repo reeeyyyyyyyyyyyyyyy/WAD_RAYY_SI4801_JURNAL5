@@ -15,19 +15,20 @@ use App\Http\Controllers\AuthController;
  * =============1================
  * unprotected routes for user registration and login
  */
-
-
+Route::apiResource('vhss', VhsController::class);
 
 Route::middleware('auth:sanctum')->group(function () {
     /**
      * ============2================
      * user logout route
      */
+   
 
     /**
      * ============4================
      * bluray API routes
      */
+
 
     /**
      * ============5================

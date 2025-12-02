@@ -20,6 +20,7 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             // the request body are name, email and password
 
+
         ]);
 
         if ($validator->fails()) {

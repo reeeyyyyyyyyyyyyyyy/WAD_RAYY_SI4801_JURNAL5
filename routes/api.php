@@ -16,7 +16,7 @@ use App\Http\Controllers\AuthController;
  * unprotected routes for user registration and login
  */
 
- Route::apiResource('dvds', DvdController::class );
+Route::apiResource('cassette', CassetteController::class);
 
 Route::middleware('auth:sanctum')->group(function () {
     /**
@@ -33,13 +33,14 @@ Route::middleware('auth:sanctum')->group(function () {
      * ============5================
      * dvd API routes
      */
-     
+
     /**
      * 
      * ============6================
      * cassette API routes
      */
 
+    
     /**
      * ============7================
      * vhs API routes

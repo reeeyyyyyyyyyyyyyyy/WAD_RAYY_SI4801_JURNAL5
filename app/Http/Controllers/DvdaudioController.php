@@ -17,9 +17,10 @@ class DvdaudioController extends Controller
     {
         // ambil semua data dvdaudio
         // $dvdaudios = ....
-
+        $dvdaudios = Dvdaudio::all();
         // return koleksi dvdaudio
         // return ....
+        return DvdaudioResource::collection($dvdaudios);
     }
 
     /**
@@ -30,22 +31,30 @@ class DvdaudioController extends Controller
     {
         // Request body berisi title, artist dan year
         $validator = Validator::make($request->all(), [
-            
+            'title' => 'required|string|max:255',
+            'artist' => 'required|string|max:255',
+            'year' => 'required|year',
         ]);
 
         if ($validator->fails()) {
             return response()->json([
                 // 'success' => false,
+                'message' => 'please check your request',
                 // 'errors' => ....
+                'errors' => $validator->errors()
             ], 422);
         }
 
+        
         // Buat data dvdaudio
         // $dvdaudio = ....
-
+        $dvdaudio = Dvdaudio::create($validator->validated());
         // return dvdaudio yang dibuat sebagai resource
+        return (new DvdaudioResource($dvdaudio))
         // return ....
-
+            ->additional(['message' => 'Dvdaudio created successfully'])
+            ->response()
+            ->setStatuscode(201);
     }
 
     /**
@@ -56,16 +65,17 @@ class DvdaudioController extends Controller
     {
         // Cari data dvdaudio berdasarkan ID
         // $dvdaudio = ....
-
+        $dvdaudio = Dvdaudio::find($id);
         if (!$dvdaudio) {
             return response()->json([
-                // 'success' => false,
+            // 'success' => false,
+            'message' => 'Dvdaudio not found'
                 // 'message' => ....
             ], 404);
         }
-
         // return dvdaudio sebagai resource
         // return ....
+        return new DvadaudioResource($dvdaudio);
     }
 
     /**
@@ -76,15 +86,18 @@ class DvdaudioController extends Controller
     {
         // Request body berisi title, artist dan year
         $validator = Validator::make($request->all(), [
-            
+            'title' => 'required|string|max:255',
+            'artist' => 'required|string|max:255',
+            'year' => 'required|year',
         ]);
 
         // Cari data dvdaudio berdasarkan ID
         // $dvdaudio = ....
-
+        $dvdaudio = Dvdaudios::find($id);
         if (!$dvdaudio) {
             return response()->json([
                 // 'success' => false,
+                'message' => 'Dvdaudio not found'
                 // 'message' => ....
             ], 404);
         }
@@ -93,15 +106,21 @@ class DvdaudioController extends Controller
         if ($validator->fails()) {
             return response()->json([
                 // 'success' => false,
+                'message' => 'please check your request',
+                'errors' => $validator->errors()
                 // 'errors' => ....
             ], 422);
         }
 
         // Update data dvdaudio
         // $dvdaudio->....
-
+        $dvdaudio->update($validator->validated());
         // return dvdaudio yang diupdate sebagai resource
         // return ....
+        return (new DvdaudioResource($dvdaudio))
+            ->additional(['message' => 'Dvdaudio updated successfully'])
+            ->response()
+            ->setStatusCode(200);
     }
 
     /**
@@ -112,18 +131,20 @@ class DvdaudioController extends Controller
     {
         // Cari data dvdaudio berdasarkan ID
         // $dvdaudio = ....
-
+        $dvdaudio = Dvdaudio::find($id);
         if (!$dvdaudio) {
             return response()->json([
                 // 'success' => false,
+                'message' => 'Dvdaudio not found'
                 // 'message' => ....
             ], 404);
         }
 
         // Hapus data dvdaudio
         // $dvdaudio->....
-
+        $dvdaudio->delete();
         // return message sukses
         // return ....
+        return response()->json(['message' => 'Dvdaudio deleted successfully'], 200);
     }
 }
